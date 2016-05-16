@@ -1,0 +1,45 @@
+{
+  "name": "gitbook-plugin-theme-api",
+  "description": "Theme for using GitBook as an API documentation",
+  "version": "1.0.0",
+  "engines": {
+    "gitbook": ">=3.0.0-pre.13"
+  },
+  "dependencies": {
+    "cheerio": "0.20.0",
+    "lodash": "4.12.0",
+    "node-uuid": "1.4.7"
+  },
+  "devDependencies": {
+    "browserify": "13.0.0",
+    "escape-html": "1.0.3",
+    "eslint": "2.9.0",
+    "font-awesome": "4.5.0",
+    "gitbook-markdown-css": "^1.0.1",
+    "jquery": "2.1.4",
+    "kramed": "0.5.6",
+    "less": "2.6.0",
+    "less-plugin-clean-css": "^1.5.1",
+    "mousetrap": "1.5.3",
+    "preboot": "git+https://github.com/mdo/preboot.git#4aab4edd85f076d50609cbe28e4fe66cc0771701",
+    "uglify-js": "2.6.1"
+  },
+  "scripts": {
+    "prepublish": "./src/build.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GitbookIO/theme-api.git"
+  },
+  "author": "FriendCode Inc. <contact@gitbook.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/GitbookIO/theme-api/issues"
+  },
+  "contributors": [
+    {
+      "name": "Johan Preynat",
+      "email": "johan@gitbook.com"
+    }
+  ]
+}
