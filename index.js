@@ -29,49 +29,105 @@ module.exports = {
             blocks: ['def', 'example', 'code'],
             process: function(blk) {
                 var title = blk.body.trim(),
-                    def,
-                    codes = [],
-                    tabsHeader = '',
-                    tabsContent = '';
+                    def;
 
-                _.each(blk.blocks, function(_blk) {
-                    if (_blk.name == 'code') {
-                        codes.push({
-                            name: _blk.kwargs.name,
-                            type: _blk.kwargs.type,
-                            body: _blk.body.trim()
-                        });
-                    } else {
-                        def = _blk.body.trim();
-                    }
-                });
+                var lastCode = false;
+                var result = _.reduce(blk.blocks, function(acc, curr) {
+                    if (curr.name == 'def') {
+                        def = curr.body.trim();
 
-                codes.forEach(function(code, i) {
-                    var isActive = (i == 0);
-
-                    if (!code.name) {
-                        throw new Error('Code tab requires a "name" property');
-                    }
-                    if (!code.type) {
-                        throw new Error('Code tab requires a "type" property');
+                        lastCode = false;
+                        return acc;
                     }
 
-                    tabsHeader += createTab(code, i, isActive);
-                    tabsContent += createTabBody(code, i, isActive);
-                });
+                    if (curr.name == 'example') {
+                        var elem = {
+                            type: 'example',
+                            text: curr.body.trim()
+                        };
+                        acc.push(elem);
 
-                // Generate replacer
-                return '<div class="api-method">'+
+                        lastCode = false;
+                        return acc;
+                    }
+
+                    if (curr.name == 'code') {
+                        var code = {
+                            name: curr.kwargs.name,
+                            type: curr.kwargs.type,
+                            body: curr.body.trim()
+                        };
+
+                        if (!code.name) {
+                            throw new Error('Code tab requires a "name" property');
+                        }
+                        if (!code.type) {
+                            throw new Error('Code tab requires a "type" property');
+                        }
+
+                        if (lastCode) {
+                            var elem = acc.pop();
+
+                            elem.codes.push(code);
+                            acc.push(elem);
+                        } else {
+                            var elem = {
+                                type: 'code',
+                                codes: [code]
+                            };
+                            acc.push(elem);
+                        }
+
+                        lastCode = true;
+                        return acc;
+                    }
+                }, []);
+
+                var html = '<div class="api-method">'+
                             '<div class="api-method-definition">'+
                                 '<h3 class="api-method-title">'+title+'</h3>'+
                                 '<p>'+def+'</p>'+
                             '</div>'+
-                            '<div class="api-method-code">'+
-                            '<div class="codetabs">'+
-                                '<div class="codetabs-header">'+tabsHeader+'</div>'+
-                                '<div class="codetabs-body">'+tabsContent+'</div>'+
-                            '</div>'+
-                        '</div>';
+                            '<div class="api-method-code">';
+
+                // Generate div.api-method-code
+                _.each(result, function(elem) {
+                    // Is an example text
+                    if (elem.type == 'example') {
+                        html += '<div class="api-method-example"><p>'+elem.text+'</p></div>';
+                    }
+
+                    // Is a code example
+                    if (elem.type == 'code') {
+                        var tabsHeader = '',
+                            tabsContent = '';
+
+                        _.each(elem.codes, function(code, i) {
+                            var isActive = (i == 0);
+
+                            if (!code.name) {
+                                throw new Error('Code tab requires a "name" property');
+                            }
+                            if (!code.type) {
+                                throw new Error('Code tab requires a "type" property');
+                            }
+
+                            tabsHeader += createTab(code, i, isActive);
+                            tabsContent += createTabBody(code, i, isActive);
+                        });
+
+                        html += '<div class="codetabs">'+
+                                    '<div class="codetabs-header">'+tabsHeader+'</div>'+
+                                    '<div class="codetabs-body">'+tabsContent+'</div>'+
+                                '</div>';
+                    }
+                });
+
+                // Close div.api-method-code
+                html += '</div>';
+
+                // Generate replacer
+                return html;
             }
         }
     },
