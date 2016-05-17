@@ -1,20 +1,19 @@
 var _ = require('lodash');
-var fs = require('fs');
-var path = require('path');
-var uuid = require('node-uuid');
 var kramed = require('kramed');
 var escape = require('escape-html');
 var cheerio = require('cheerio');
 
 function createTab(code, i, isActive) {
-    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + code.type + '">' + code.name + '</div>';
+    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + code.lang + '">' + code.name + '</div>';
 }
 
 function createTabBody(code, i, isActive) {
-    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + code.type + '"><pre><code class="lang-' + code.type + '">'
+    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + code.lang + '"><pre><code class="lang-' + code.lang + '">'
         + escape(code.body) +
     '</code></pre></div>';
 }
+
+var methods = {};
 
 module.exports = {
     book: {
@@ -26,114 +25,126 @@ module.exports = {
 
     blocks: {
         method: {
-            blocks: ['def', 'example', 'code'],
+            parse: false,
+            blocks: ['code', 'example'],
             process: function(blk) {
-                var title = blk.body.trim(),
-                    def;
+                // Store methods for page
+                var examples = [],
+                    currentExample = {
+                        text: blk.body.trim(),
+                        codes: []
+                    };
 
-                var lastCode = false;
-                var result = _.reduce(blk.blocks, function(acc, curr) {
-                    if (curr.name == 'def') {
-                        def = curr.body.trim();
-
-                        lastCode = false;
-                        return acc;
-                    }
-
-                    if (curr.name == 'example') {
-                        var elem = {
-                            type: 'example',
-                            text: curr.body.trim()
-                        };
-                        acc.push(elem);
-
-                        lastCode = false;
-                        return acc;
-                    }
-
-                    if (curr.name == 'code') {
+                _.each(blk.blocks, function(_blk) {
+                    // Current example
+                    if (_blk.name == 'code') {
                         var code = {
-                            name: curr.kwargs.name,
-                            type: curr.kwargs.type,
-                            body: curr.body.trim()
+                            name: _blk.kwargs.name,
+                            lang: _blk.kwargs.lang,
+                            body: _blk.body.trim()
                         };
 
-                        if (!code.name) {
-                            throw new Error('Code tab requires a "name" property');
-                        }
-                        if (!code.type) {
-                            throw new Error('Code tab requires a "type" property');
-                        }
-
-                        if (lastCode) {
-                            var elem = acc.pop();
-
-                            elem.codes.push(code);
-                            acc.push(elem);
-                        } else {
-                            var elem = {
-                                type: 'code',
-                                codes: [code]
-                            };
-                            acc.push(elem);
-                        }
-
-                        lastCode = true;
-                        return acc;
-                    }
-                }, []);
-
-                var html = '<div class="api-method">'+
-                            '<div class="api-method-definition">'+
-                                '<h3 class="api-method-title">'+title+'</h3>'+
-                                '<p>'+def+'</p>'+
-                            '</div>'+
-                            '<div class="api-method-code">';
-
-                // Generate div.api-method-code
-                _.each(result, function(elem) {
-                    // Is an example text
-                    if (elem.type == 'example') {
-                        html += '<div class="api-method-example"><p>'+elem.text+'</p></div>';
+                        currentExample.codes.push(code);
                     }
 
-                    // Is a code example
-                    if (elem.type == 'code') {
-                        var tabsHeader = '',
-                            tabsContent = '';
+                    // New example
+                    if (_blk.name == 'example') {
+                        // Push last example
+                        examples.push(_.cloneDeep(currentExample));
 
-                        _.each(elem.codes, function(code, i) {
-                            var isActive = (i == 0);
-
-                            if (!code.name) {
-                                throw new Error('Code tab requires a "name" property');
-                            }
-                            if (!code.type) {
-                                throw new Error('Code tab requires a "type" property');
-                            }
-
-                            tabsHeader += createTab(code, i, isActive);
-                            tabsContent += createTabBody(code, i, isActive);
-                        });
-
-                        html += '<div class="codetabs">'+
-                                    '<div class="codetabs-header">'+tabsHeader+'</div>'+
-                                    '<div class="codetabs-body">'+tabsContent+'</div>'+
-                                '</div>';
+                        currentExample.text = _blk.body.trim();
+                        currentExample.codes = [];
                     }
                 });
 
-                // Close div.api-method-code
-                html += '</div>';
+                // Push last example
+                examples.push(currentExample);
 
-                // Generate replacer
-                return html;
+                // Add to list of methods
+                if (!!blk.kwargs.name) {
+                    methods[blk.kwargs.name] = examples;
+                }
+
+                return '<div id="'+blk.kwargs.name+'"></div>';
             }
         }
     },
 
     hooks: {
         'page': function(page) {
+            // Replace each method with examples content
+            var $ = cheerio.load(page.content);
+
+            var method;
+            for (method in methods) {
+                // Method is on current page
+                var $methodTitle = $('#'+method);
+
+                if ($methodTitle.length) {
+                    var $prev = $methodTitle.prev();
+
+                    // Create definition from method content
+                    var $methodHTML = $('<div class="api-method"></div>');
+
+                    var $methodContent = $methodTitle.nextUntil(':header').addBack();
+                    var $container = $('<div></div>');
+
+                    $methodContent.each(function() {
+                        $container.append($(this));
+                    });
+
+                    var $methodDefinition = $('<div class="api-method-definition"></div>');
+                    $methodDefinition.html($container.html());
+
+                    $methodHTML.append($methodDefinition);
+
+                    // Generate code examples from parsed blocks
+                    var $methodCode = $('<div class="api-method-code"></div>');
+
+                    var examples = methods[method];
+                    _.each(examples, function(example) {
+                        // Example text
+                        if (!!example.text.trim().length) {
+                            var $methodExample = $('<div class="api-method-example"></div>');
+                            $methodExample.html(kramed(example.text));
+                            $methodCode.append($methodExample);
+                        }
+
+                        // Example code snippets
+                        if (!!example.codes.length) {
+                            var tabsHeader = '',
+                                tabsContent = '';
+
+                            _.each(example.codes, function(code, i) {
+                                var isActive = (i == 0);
+
+                                tabsHeader += createTab(code, i, isActive);
+                                tabsContent += createTabBody(code, i, isActive);
+                            });
+
+                            var $codeTabs = $('<div class="codetabs"></div>');
+                            var $tabsHeader = $('<div class="codetabs-header"></div>');
+                            $tabsHeader.html(tabsHeader);
+
+                            var $tabsContent = $('<div class="codetabs-body"></div>');
+                            $tabsContent.html(tabsContent);
+
+                            $codeTabs.append($tabsHeader);
+                            $codeTabs.append($tabsContent);
+
+                            $methodCode.append($codeTabs);
+                        }
+                    });
+
+                    // Append code to method div
+                    $methodHTML.append($methodCode);
+
+                    // Replace content
+                    $methodHTML.insertAfter($prev);
+                }
+            }
+
+            page.content = $.html();
             return page;
         }
     }

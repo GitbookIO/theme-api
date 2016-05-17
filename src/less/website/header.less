@@ -3,8 +3,16 @@
 
     overflow: visible;
     height: @header-height;
-    padding: 0px 8px;
+    padding: 0;
     z-index: 2;
+
+    position: fixed;
+    background-color: #FFF;
+    border-bottom: 1px solid @header-border;
+    top: 0;
+    right: 0;
+    left: 0;
+    .transition(left @sidebar-transition-duration ease);
 
     font-size: 0.85em;
     color: @header-color;
@@ -77,6 +85,12 @@
             a {
                 display: none;
             }
+        }
+    }
+
+    &.with-summary {
+        .book-header {
+            left: @sidebar-width;
         }
     }
 }

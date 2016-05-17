@@ -14,6 +14,8 @@
 @import "website/markup.less";
 @import "website/navigation.less";
 @import "website/search.less";
+@import "website/langswitcher.less";
+@import "website/api-method.less";
 
 * {
     .box-sizing(border-box);
@@ -45,32 +47,14 @@ body {
     .text-adjust(100%);
 }
 
-.api-method {
-    border-bottom: @api-method-border;
-
-    .api-method-definition {
-        padding: 0;
-    }
-
-    .api-method-code {
-        padding: @api-method-padding 0;
-    }
+.page-inner {
+    max-width: 100%;
+    padding: 0;
+    margin-top: @header-height;
 }
 
-.book {
-    &.two-columns {
-        .api-method {
-            .api-method-definition {
-                float: left;
-                width: 50%;
-                padding: @api-method-padding 0;
-            }
-
-            .api-method-code {
-                position: relative;
-                margin-left: 50%;
-                padding: @api-method-padding * 2;
-            }
-        }
-    }
+.markdown-section {
+    padding: 20px @api-method-padding 0;
 }
+
+

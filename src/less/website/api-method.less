@@ -1,0 +1,50 @@
+.api-method {
+    margin: -1px -@api-method-padding 0;
+
+    .api-method-definition {
+        padding: @api-method-padding/2 @api-method-padding;
+
+        h3 {
+            margin-top: .85em;
+        }
+    }
+
+    .api-method-code {
+        .api-method-example {
+            margin-bottom: @api-method-padding;
+        }
+
+        padding: @api-method-padding;
+        background-color: @api-code-background;
+        border-top: @api-method-border;
+        border-bottom: @api-method-border;
+
+        pre>code {
+            .white-space(pre-wrap);
+            word-wrap: break-word;
+        }
+    }
+}
+
+.book {
+    &.two-columns {
+        .api-method {
+            width: calc(~"100% +" 2*@api-method-padding);
+            margin: @api-method-padding -@api-method-padding;
+
+            .api-method-definition {
+                float: left;
+                width: 50%;
+            }
+
+            .api-method-code {
+                position: relative;
+                margin-left: 50%;
+                padding: @api-method-padding;
+                border-left: @api-method-border;
+                border-top: none;
+                border-bottom: none;
+            }
+        }
+    }
+}
