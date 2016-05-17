@@ -2,19 +2,11 @@
     margin: -1px -@api-method-padding 0;
 
     .api-method-definition {
-        padding: @api-method-padding/2 @api-method-padding;
-
-        h3 {
-            margin-top: .85em;
-        }
+        padding: 0 @api-method-padding @api-method-padding/2;
     }
 
     .api-method-code {
-        .api-method-example {
-            margin-bottom: @api-method-padding;
-        }
-
-        padding: @api-method-padding;
+        padding: @api-method-padding @api-method-padding @api-method-padding/2;
         background-color: @api-code-background;
         border-top: @api-method-border;
         border-bottom: @api-method-border;
@@ -29,8 +21,13 @@
 .book {
     &.two-columns {
         .api-method {
+            clear: both;
             width: calc(~"100% +" 2*@api-method-padding);
             margin: @api-method-padding -@api-method-padding;
+
+            .api-method-title {
+                margin-top: 0;
+            }
 
             .api-method-definition {
                 float: left;

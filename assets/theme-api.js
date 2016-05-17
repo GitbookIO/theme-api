@@ -14,30 +14,35 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
         hideCodeTabs: false
     };
 
-    function init(config) {
-        // Instantiate font state object
-        fontState = gitbook.storage.get('fontState', {
-            size: config.size || 2,
-            family: FAMILY[config.family || 'sans'],
-            theme: THEMES[config.theme || 'white']
-        });
+    var $codes,
+        currentLang;
 
-        update();
-    }
+    // function init(config) {
+    //     // Instantiate font state object
+    //     fontState = gitbook.storage.get('fontState', {
+    //         size: config.size || 2,
+    //         family: FAMILY[config.family || 'sans'],
+    //         theme: THEMES[config.theme || 'white']
+    //     });
+
+    //     update();
+    // }
 
     function toggleLayout() {
         $('.book').toggleClass('two-columns');
     }
 
-    var $codetabs;
-    function updateCodeTabs(lang) {
-        $codetabs.each(function() {
-            // Switch only codetabs with corresponding language
-            var newTab = $(this).find('.tab[data-codetab="' + lang + '"]');
+    function updateCodes(lang) {
+        var langClass = 'lang-'+lang;
 
-            if (!!newTab.length) {
-                $(this).find('.tab').removeClass('active');
-                newTab.addClass('active');
+        $codes.each(function() {
+            // Show corresponding
+            if ($(this).hasClass(langClass)) {
+                $(this).removeClass('hidden');
+            }
+            // Hide others
+            else {
+                $(this).addClass('hidden');
             }
         });
     }
@@ -49,7 +54,6 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
         gitbook.toolbar.createButton({
             icon: 'fa fa-columns',
             label: 'Change Layout',
-            className: 'font-settings',
             onClick: toggleLayout
         });
 
@@ -71,13 +75,17 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
         // Set languages in good order
         opts.languages.reverse();
         $.each(opts.languages, function(i, lang) {
+            if (lang.default) {
+                currentLang = lang.lang;
+            }
+
             gitbook.toolbar.createButton({
                 text: lang.name,
                 position: 'right',
                 className: 'lang-switcher' + (lang.default? ' active': ''),
                 onClick: function(e) {
                     // Update codes
-                    updateCodeTabs(lang.lang);
+                    updateCodes(lang.lang);
 
                     // Update active button
                     $('.btn.lang-switcher').removeClass('active');
@@ -91,22 +99,7 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
     });
 
     gitbook.events.on('page.change', function() {
-        $codetabs = $('.codetabs');
-
-        // Hide tab headers if asked
-        if (opts.hideCodeTabs) {
-            $codetabs.find('.codetabs-header').addClass('hidden');
-        }
-
-        // Sync language change for codetabs
-        $(document).on('click.plugin.codetabs', '.codetabs .codetabs-header .tab', function(e) {
-            var $btn = $(e.target);
-            var tabId = $btn.data('codetab');
-
-            $codetabs.each(function() {
-                $(this).find('.tab').removeClass('active');
-                $(this).find('.tab[data-codetab="' + tabId + '"]').addClass('active');
-            });
-        });
+        $codes = $('.api-method-sample');
+        updateCodes(currentLang);
     });
 });

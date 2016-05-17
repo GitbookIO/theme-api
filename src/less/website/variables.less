@@ -1,13 +1,14 @@
+// Colors
+@color-gray-lightest:                   #FEFEFE;
 
 // API methods
-@api-method-padding:                30px;
+@api-method-padding:                    30px;
 
-@api-soft-grey:                     #F1EFEF;
-@api-code-background:               #FEFEFE;
+@api-soft-grey:                         #F1EFEF;
+@api-code-background:                   @color-gray-lightest;
+@api-method-border:                     1px solid @api-soft-grey;
 
-// Borders
-@api-method-border: 1px solid @api-soft-grey;
-
+// Global
 @staticPath: ".";
 
 // Font sizes
@@ -41,7 +42,7 @@
 @sidebar-width:                       300px;
 @sidebar-breakpoint:                  600px;
 @sidebar-color:                       hsl(207, 15%, 25%);
-@sidebar-background:                  #fafafa;
+@sidebar-background:                  @color-gray-lightest;
 @sidebar-border-right:                1px solid @header-border;
 
 @sidebar-nested-padding:              20px;
