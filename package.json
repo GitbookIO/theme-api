@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "browserify": "13.0.0",
-    "escape-html": "1.0.3",
     "eslint": "2.9.0",
     "font-awesome": "4.5.0",
     "gitbook-markdown-css": "^1.0.1",
