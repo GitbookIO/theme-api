@@ -1,8 +1,8 @@
 var _ = require('lodash');
-var kramed = require('kramed');
+var Q = require('q-plus');
 var cheerio = require('cheerio');
 
-function generateMethod(body, examples) {
+function generateMethod(book, body, examples) {
     // Main container
     var $ = cheerio.load('<div class="api-method"></div>'),
         $apiMethod = $('div.api-method'),
@@ -15,29 +15,41 @@ function generateMethod(body, examples) {
     $apiMethod.append($apiDefinition);
     $apiMethod.append($apiCode);
 
-    // Set method body
-    $apiDefinition.html(kramed(body));
+    // Render method body
+    return Q()
+    .then(function() {
+        return book.renderBlock('markdown', body);
+    })
+    .then(function(apiDefinition) {
+        $apiDefinition.html(apiDefinition);
 
-    // Set method examples
-    _.each(examples, function(example) {
-        // Common text
-        if (example.name == 'common') {
-            var $common = $('<div class="api-method-example"></div>');
-            $common.html(kramed(example.body));
-            $apiCode.append($common);
-        }
+        // Set method examples
+        return Q(examples).eachSeries(function(example) {
+            var $example;
 
-        // Example code snippets
-        if (example.name == 'sample') {
-            var langClass = 'lang-'+example.lang;
-            var $code = $('<div class="api-method-sample '+langClass+'"></div>');
-            $code.html(kramed(example.body));
-            $apiCode.append($code);
-        }
+            // Common text
+            if (example.name == 'common') {
+                $example = $('<div class="api-method-example"></div>');
+
+            }
+
+            // Example code snippet
+            if (example.name == 'sample') {
+                var langClass = 'lang-'+example.lang;
+                $example = $('<div class="api-method-sample '+langClass+'"></div>');
+            }
+
+            return book.renderBlock('markdown', example.body)
+            .then(function(body) {
+                $example.html(body);
+                $apiCode.append($example);
+            });
+        });
+    })
+    .then(function() {
+        // Return whole HTML
+        return $.html('div.api-method');
     });
-
-    // Return whole HTML
-    return $.html('div.api-method');
 }
 
 module.exports = {
@@ -63,7 +75,7 @@ module.exports = {
                     });
                 });
 
-                return generateMethod(blk.body.trim(), examples);
+                return generateMethod(this, blk.body.trim(), examples);
             }
         }
     }
