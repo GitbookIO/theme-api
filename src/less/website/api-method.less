@@ -1,12 +1,12 @@
 .api-method {
-    margin: @api-method-padding -@api-method-padding;
+    margin: @api-method-padding/2 -@api-method-padding;
 
     &:last-of-type {
         margin-bottom: 0;
     }
 
     .api-method-definition {
-        padding: 0 @api-method-padding @api-method-padding/2;
+        padding: 0 @api-method-padding;
     }
 
     .api-method-code {
@@ -20,13 +20,30 @@
             word-wrap: break-word;
         }
     }
+
+    &:after {
+        clear: both;
+    }
 }
 
 .book {
     &.two-columns {
         .api-method {
-            clear: both;
+            position: relative;
             width: calc(~"100% +" 2*@api-method-padding);
+            overflow: auto;
+
+            &:before {
+                content: '';
+                clear: both;
+            }
+
+            &:after {
+                content: '';
+                clear: both;
+                position: absolute;
+                bottom: 0;
+            }
 
             .api-method-title {
                 margin-top: 0;
@@ -39,8 +56,10 @@
 
             .api-method-code {
                 position: relative;
-                margin-left: 50%;
-                padding: @api-method-padding;
+                float: left;
+                width: 50%;
+                margin: @api-method-padding/2 auto 0;
+                padding: @api-method-padding @api-method-padding @api-method-padding/2;
                 border-left: @api-method-border;
                 border-top: none;
                 border-bottom: none;
