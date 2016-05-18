@@ -10,8 +10,7 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
                 name: 'Go',
                 lang: 'go'
             }
-        ],
-        hideCodeTabs: false
+        ]
     };
 
     var $codes,
@@ -56,21 +55,6 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
             label: 'Change Layout',
             onClick: toggleLayout
         });
-
-        // Create buttons in toolbar
-        // gitbook.toolbar.createButton({
-        //     icon: 'fa fa-code',
-        //     label: 'Language',
-        //     className: 'font-settings',
-        //     dropdown: $.map(languages, function(lang) {
-        //         return {
-        //             text: lang.name,
-        //             onClick: function() {
-        //                 updateCodeTabs(lang.lang);
-        //             }
-        //         };
-        //     })
-        // });
 
         // Set languages in good order
         opts.languages.reverse();
