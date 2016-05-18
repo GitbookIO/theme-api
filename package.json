@@ -11,18 +11,14 @@
     "node-uuid": "1.4.7"
   },
   "devDependencies": {
-    "browserify": "13.0.0",
     "eslint": "2.9.0",
     "font-awesome": "4.5.0",
     "gitbook-markdown-css": "^1.0.1",
-    "jquery": "2.1.4",
     "less": "2.6.0",
     "less-plugin-clean-css": "^1.5.1",
-    "mousetrap": "1.5.3",
     "preboot": "git+https://github.com/mdo/preboot.git#4aab4edd85f076d50609cbe28e4fe66cc0771701",
     "q": "1.4.1",
-    "q-plus": "0.0.8",
-    "uglify-js": "2.6.1"
+    "q-plus": "0.0.8"
   },
   "scripts": {
     "prepublish": "./src/build.sh"
