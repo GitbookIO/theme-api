@@ -57,6 +57,9 @@ module.exports = {
         assets: './assets',
         js: [
             'theme-api.js'
+        ],
+        css: [
+            'theme-api.css'
         ]
     },
 
