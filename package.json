@@ -12,8 +12,6 @@
   },
   "devDependencies": {
     "eslint": "2.9.0",
-    "font-awesome": "4.5.0",
-    "gitbook-markdown-css": "^1.0.1",
     "less": "2.6.0",
     "less-plugin-clean-css": "^1.5.1",
     "preboot": "git+https://github.com/mdo/preboot.git#4aab4edd85f076d50609cbe28e4fe66cc0771701",
