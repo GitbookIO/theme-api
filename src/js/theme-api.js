@@ -1,89 +1,128 @@
 require(['gitbook', 'jquery'], function(gitbook, $) {
-    var opts = {
-        languages: [
-            {
-                name: 'JavaScript',
-                lang: 'js',
-                default: true
-            },
-            {
-                name: 'Go',
-                lang: 'go'
-            }
-        ]
-    };
+    var $codes = $('.api-method-sample'),
+        buttonsId = [];
 
-    var $codes,
-        currentLang;
+    // Instantiate localStorage
+    function init(config) {
+        themeApi = gitbook.storage.get('themeApi', {
+            split:       config.split,
+            currentLang: null
+        });
 
-    // function init(config) {
-    //     // Instantiate font state object
-    //     fontState = gitbook.storage.get('fontState', {
-    //         size: config.size || 2,
-    //         family: FAMILY[config.family || 'sans'],
-    //         theme: THEMES[config.theme || 'white']
-    //     });
-
-    //     update();
-    // }
-
-    function toggleLayout() {
-        $('.book').toggleClass('two-columns');
+        update();
     }
 
-    function updateCodes(lang) {
-        var langClass = 'lang-'+lang;
+    // Update localStorage settings
+    function saveSettings() {
+        gitbook.storage.set('themeApi', themeApi);
+        update();
+    }
 
+    // Update display
+    function update() {
+        // Update layout
+        $('.book').toggleClass('two-columns', themeApi.split);
+
+        // Display corresponding code snippets
         $codes.each(function() {
             // Show corresponding
-            if ($(this).hasClass(langClass)) {
-                $(this).removeClass('hidden');
-            }
-            // Hide others
-            else {
-                $(this).addClass('hidden');
-            }
+            var hidden = !($(this).data('lang') == themeApi.currentLang);
+            $(this).toggleClass('hidden', hidden);
         });
     }
 
     gitbook.events.bind('start', function(e, config) {
-        // var opts = config.fontsettings;
+        var opts = config['theme-api'];
 
-        // Create buttons in toolbar
+        // Create layout button in toolbar
         gitbook.toolbar.createButton({
             icon: 'fa fa-columns',
             label: 'Change Layout',
-            onClick: toggleLayout
-        });
-
-        // Set languages in good order
-        opts.languages.reverse();
-        $.each(opts.languages, function(i, lang) {
-            if (lang.default) {
-                currentLang = lang.lang;
+            onClick: function() {
+                // Update layout
+                themeApi.split = !themeApi.split;
+                saveSettings();
             }
-
-            gitbook.toolbar.createButton({
-                text: lang.name,
-                position: 'right',
-                className: 'lang-switcher' + (lang.default? ' active': ''),
-                onClick: function(e) {
-                    // Update codes
-                    updateCodes(lang.lang);
-
-                    // Update active button
-                    $('.btn.lang-switcher').removeClass('active');
-                    $(e.currentTarget).addClass('active');
-                }
-            });
         });
 
         // Init current settings
-        // init(opts);
+        init(opts);
     });
 
     gitbook.events.on('page.change', function() {
+        // Remove languages buttons
+        gitbook.toolbar.removeButtons(buttonsId);
+        buttonsId = [];
+
+        // Update code snippets elements
         $codes = $('.api-method-sample');
-        updateCodes(currentLang);
+
+        // Recreate languages buttons
+        var languages = [],
+            hasCurrentLang = false;
+
+        $codes.each(function() {
+            var isDefault = false,
+                codeLang  = $(this).data('lang'),
+                codeName  = $(this).data('name'),
+                exists,
+                found;
+
+            // Check if is current language
+            if (codeLang == themeApi.currentLang) {
+                hasCurrentLang = true;
+                isDefault = true;
+            }
+
+            // Check if already added
+            exists = $.grep(languages, function(language) {
+                return language.name == codeName;
+            });
+
+            found = !!exists.length;
+
+            if (!found) {
+                // Add language
+                languages.push({
+                    name: codeName,
+                    lang: codeLang,
+                    default: isDefault
+                });
+            }
+        });
+
+        // Set languages in good order
+        languages.reverse();
+        $.each(languages, function(i, language) {
+            // Set first (last in array) language as active if no default
+            var isDefault = language.default || (!hasCurrentLang && i == (languages.length - 1)),
+                buttonId;
+
+            // Create button
+            buttonId = gitbook.toolbar.createButton({
+                text: language.name,
+                position: 'right',
+                className: 'lang-switcher' + (isDefault? ' active': ''),
+                onClick: function(e) {
+                    // Update language
+                    themeApi.currentLang = language.lang;
+                    saveSettings();
+
+                    // Update active button
+                    $('.btn.lang-switcher.active').removeClass('active');
+                    $(e.currentTarget).addClass('active');
+                }
+            });
+
+            // Add to list of buttons
+            buttonsId.push(buttonId);
+
+            // Set as current language if is default
+            if (isDefault) {
+                themeApi.currentLang = language.lang;
+            }
+        });
+
+        update();
     });
 });
