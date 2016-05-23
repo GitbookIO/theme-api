@@ -102,8 +102,8 @@ module.exports = {
     hooks: {
         config: function(config) {
             // Get user configured languages
-            var config = config.pluginsConfig['theme-api'];
-            configLanguages = config.languages;
+            configLanguages = config.pluginsConfig['theme-api'].languages;
+            return config;
         }
     }
 };
