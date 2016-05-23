@@ -37,5 +37,19 @@
       "name": "Johan Preynat",
       "email": "johan@gitbook.com"
     }
-  ]
+  ],
+  "gitbook": {
+    "properties": {
+      "languages": {
+        "type": "array",
+        "description": "List of languages code snippets",
+        "default": []
+      },
+      "split": {
+        "type": "boolean",
+        "description": "Initial layout for this documentation",
+        "default": true
+      }
+    }
+  }
 }
