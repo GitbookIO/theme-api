@@ -1,8 +1,6 @@
 # GitBook API Theme
 
-Theme for using GitBook to publish an API documentation.
-
-This theme works perfectly with search plugins (as the default one or algolia).
+Theme for using GitBook to publish an API documentation. This theme works perfectly with search plugins (as the default one or algolia).
 
 ![Screenshot](img/theme-api.png)
 
@@ -42,7 +40,7 @@ Those nested blocks are documented below.
     ```
     {% endmethod %}
 
-![Method definition](img/method.png)
+![Method definition](img/split.png)
 
 While the body of the method block will be used as the definition for your method, each `sample` will be used to display examples. To do so, each `sample` block should specify a language using the `lang` arguments.
 
@@ -99,6 +97,12 @@ Common blocks are used to display content to be displayed for all languages in y
 ### Layout
 
 The theme provides two layouts to display your examples: one-column or two-columns (split).
+
+###### One column layout
+![One column](img/one-column.png)
+
+###### Split layout
+![Split](img/split.png)
 
 The layout can be toggled from the toolbar using the layout icon: ![Layout icon](img/layout-icon.png)
 
