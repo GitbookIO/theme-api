@@ -24,6 +24,10 @@ Those nested blocks are documented below.
 
 #### Sample blocks
 
+While the body of the method block will be used as the definition for your method, each `sample` will be used to display examples. To do so, each `sample` block should specify a language using the `lang` arguments.
+
+This is great for managing examples in different languages, for instance when documenting multiple API clients.
+
     {% method -%}
     ## Install {#install}
 
@@ -40,11 +44,8 @@ Those nested blocks are documented below.
     ```
     {% endmethod %}
 
-![Method definition](img/split.png)
-
-While the body of the method block will be used as the definition for your method, each `sample` will be used to display examples. To do so, each `sample` block should specify a language using the `lang` arguments.
-
-This is great for managing examples in different languages, for instance when documenting different languages API clients at once.
+![JS Sample](img/sample-js.png)
+![Go sample](img/sample-go.png)
 
 On each page containing `method` blocks with samples, a switcher is automatically added at the top-right corner to easily select which language to display.
 
