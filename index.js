@@ -2,6 +2,7 @@ var _ = require('lodash');
 var Q = require('q-plus');
 var cheerio = require('cheerio');
 
+var DEFAULT_LANGUAGES = require('./languages');
 var configLanguages = [];
 
 function generateMethod(book, body, examples) {
@@ -106,8 +107,8 @@ module.exports = {
 
     hooks: {
         config: function(config) {
-            // Get user configured languages
-            configLanguages = config.pluginsConfig['theme-api'].languages;
+            // Merge user configured languages with default languages
+            configLanguages = _.unionBy(config.pluginsConfig['theme-api'].languages, DEFAULT_LANGUAGES, 'lang');
             return config;
         }
     }
