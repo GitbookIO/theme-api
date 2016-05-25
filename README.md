@@ -74,7 +74,7 @@ The name of each language can be configured in your `book.json` file, with it's 
 
 ![Language switcher](img/lang-switcher.png)
 
-If not provided, the name of the language will be the `lang` argument for a block uppercased.
+Most programming languages are supported by default, with name mapping following the [highlight.js convention](http://highlightjs.readthedocs.io/en/latest/css-classes-reference.html#language-names-and-aliases).
 
 Note that a `sample` block can contain any markdown content to be displayed for this language, not only code blocks, as illustrated below.
 
@@ -87,13 +87,13 @@ Common blocks are used to display content to be displayed for all languages in y
     ## Simple method
 
     {% sample lang="js" -%}
-    This text be displayed only for JavaScript.
+    This text will only appear for JavaScript.
 
     {% sample lang="go" -%}
-    This text be displayed only for Go.
+    This text will only appear for Go.
 
     {% common -%}
-    This will be displayed for both JavaScript and Go.
+    This will appear for both JavaScript and Go.
     {% endmethod %}
 
 
