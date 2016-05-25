@@ -1,7 +1,7 @@
 {
   "name": "gitbook-plugin-theme-api",
   "description": "Theme for using GitBook as an API documentation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "gitbook": ">=3.0.0"
   },
