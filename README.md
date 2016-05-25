@@ -1,6 +1,8 @@
 # GitBook API Theme
 
-Theme for using GitBook to publish an API documentation. This theme works perfectly with search plugins (as the default one or algolia).
+Theme for using GitBook to publish an API documentation.
+
+This theme works perfectly with search plugins (like [the default plugin](https://github.com/GitbookIO/plugin-search) or [algolia](https://github.com/GitbookIO/plugin-algolia)).
 
 ![Screenshot](img/theme-api.png)
 
