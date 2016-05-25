@@ -9,15 +9,15 @@
     "cheerio": "0.20.0",
     "gitbook-plugin-search": ">=2.0.0",
     "gitbook-plugin-theme-default": ">=1.0.2",
-    "lodash": "4.12.0"
+    "lodash": "4.12.0",
+    "q": "1.4.1",
+    "q-plus": "0.0.8",
   },
   "devDependencies": {
     "eslint": "2.9.0",
     "less": "2.6.0",
     "less-plugin-clean-css": "^1.5.1",
     "preboot": "git+https://github.com/mdo/preboot.git#4aab4edd85f076d50609cbe28e4fe66cc0771701",
-    "q": "1.4.1",
-    "q-plus": "0.0.8",
     "uglify-js": "2.6.1"
   },
   "scripts": {
