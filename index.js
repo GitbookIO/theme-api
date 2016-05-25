@@ -76,6 +76,11 @@ module.exports = {
 
                     // Search if is user-defined language
                     if (_blk.name == 'sample') {
+                        // Sample blocks should have a lang argument
+                        if (!_blk.kwargs.lang) {
+                            throw Error('sample blocks must provide a "lang" argument');
+                        }
+
                         var language = _.find(configLanguages, { lang: _blk.kwargs.lang });
 
                         if (!!language) {
