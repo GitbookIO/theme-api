@@ -31,18 +31,12 @@
         .api-method {
             position: relative;
             width: calc(~"100% +" 2*@api-method-padding);
-            overflow: auto;
-
-            &:before {
-                content: '';
-                clear: both;
-            }
 
             &:after {
-                content: '';
+                content: " ";
+                display: block;
+                visibility: hidden;
                 clear: both;
-                position: absolute;
-                bottom: 0;
             }
 
             .api-method-title {
