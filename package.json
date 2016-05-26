@@ -11,7 +11,7 @@
     "gitbook-plugin-theme-default": ">=1.0.2",
     "lodash": "4.12.0",
     "q": "1.4.1",
-    "q-plus": "0.0.8",
+    "q-plus": "0.0.8"
   },
   "devDependencies": {
     "eslint": "2.9.0",
