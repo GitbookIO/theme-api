@@ -56,6 +56,13 @@
                 border-left: @api-method-border;
                 border-top: none;
                 border-bottom: none;
+                transition: opacity 300ms ease;
+            }
+        }
+
+        .page-wrapper.comments-open-from-definition {
+            .api-method-code {
+                opacity: 0.1;
             }
         }
     }
