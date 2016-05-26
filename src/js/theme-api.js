@@ -1,6 +1,7 @@
 require(['gitbook', 'jquery'], function(gitbook, $) {
-    var $codes = $('.api-method-sample'),
-        buttonsId = [];
+    var buttonsId = [],
+        $codes,
+        themeApi;
 
     // Instantiate localStorage
     function init(config) {
@@ -8,21 +9,21 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
             split:       config.split,
             currentLang: null
         });
-
-        update();
     }
 
     // Update localStorage settings
     function saveSettings() {
         gitbook.storage.set('themeApi', themeApi);
-        update();
+        updateDisplay();
     }
 
     // Update display
-    function update() {
+    function updateDisplay() {
         // Update layout
         $('.book').toggleClass('two-columns', themeApi.split);
 
+        // Update code samples elements
+        $codes = $('.api-method-sample');
         // Display corresponding code snippets
         $codes.each(function() {
             // Show corresponding
@@ -31,25 +32,8 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
         });
     }
 
-    gitbook.events.bind('start', function(e, config) {
-        var opts = config['theme-api'];
-
-        // Create layout button in toolbar
-        gitbook.toolbar.createButton({
-            icon: 'fa fa-columns',
-            label: 'Change Layout',
-            onClick: function() {
-                // Update layout
-                themeApi.split = !themeApi.split;
-                saveSettings();
-            }
-        });
-
-        // Init current settings
-        init(opts);
-    });
-
-    gitbook.events.on('page.change', function() {
+    // Update code tabs
+    function updateCodeTabs() {
         // Remove languages buttons
         gitbook.toolbar.removeButtons(buttonsId);
         buttonsId = [];
@@ -122,7 +106,33 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
                 themeApi.currentLang = language.lang;
             }
         });
+    }
 
-        update();
+    // Initialization
+    gitbook.events.bind('start', function(e, config) {
+        var opts = config['theme-api'];
+
+        // Create layout button in toolbar
+        gitbook.toolbar.createButton({
+            icon: 'fa fa-columns',
+            label: 'Change Layout',
+            onClick: function() {
+                // Update layout
+                themeApi.split = !themeApi.split;
+                saveSettings();
+            }
+        });
+
+        // Init current settings
+        init(opts);
+    });
+
+    // Update state
+    gitbook.events.on('page.change', function() {
+        updateCodeTabs();
+        // updateComments();
+        updateDisplay();
+    });
+
     });
 });
