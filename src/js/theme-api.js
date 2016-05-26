@@ -134,5 +134,13 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
         updateDisplay();
     });
 
+    // Comments toggled event
+    gitbook.events.on('comment.toggled', function(e, $from, open) {
+        // If triggering element is in a definition
+        if (!!$from.parents('.api-method-definition').length) {
+            // Add class to wrapper only if comments are open and in two-columns mode
+            var $wrapper = gitbook.state.$book.find('.page-wrapper');
+            $wrapper.toggleClass('comments-open-from-definition', open && themeApi.split);
+        }
     });
 });
