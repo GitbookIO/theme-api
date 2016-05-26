@@ -3,12 +3,11 @@
   "description": "Theme for using GitBook as an API documentation",
   "version": "1.0.2",
   "engines": {
-    "gitbook": ">=3.0.0"
+    "gitbook": ">=3.0.1"
   },
   "dependencies": {
     "cheerio": "0.20.0",
     "gitbook-plugin-search": ">=2.0.0",
-    "gitbook-plugin-theme-default": ">=1.0.2",
     "lodash": "4.12.0",
     "q": "1.4.1",
     "q-plus": "0.0.8"
