@@ -48,6 +48,15 @@
         "type": "boolean",
         "description": "Initial layout for this documentation",
         "default": true
+      },
+      "theme": {
+        "type": "string",
+        "default": "light",
+        "title": "Default theme",
+        "enum": [
+          "light",
+          "dark"
+        ]
       }
     }
   }

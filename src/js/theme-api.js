@@ -140,6 +140,12 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
         // Initialize themes
         gitbook.fontsettings.setThemes(THEMES);
 
+        // Set to configured theme
+        var defaultTheme = $.grep(THEMES, function(theme) {
+            return theme.config == opts.theme;
+        })[0];
+        gitbook.fontsettings.setTheme(defaultTheme.id);
+
         // Init current settings
         init(opts);
     });
