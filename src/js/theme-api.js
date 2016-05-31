@@ -3,6 +3,20 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
         $codes,
         themeApi;
 
+    // Default themes
+    var THEMES = [
+        {
+            config: 'light',
+            text: 'Light',
+            id: 0
+        },
+        {
+            config: 'dark',
+            text: 'Dark',
+            id: 3
+        }
+    ];
+
     // Instantiate localStorage
     function init(config) {
         themeApi = gitbook.storage.get('themeApi', {
@@ -122,6 +136,9 @@ require(['gitbook', 'jquery'], function(gitbook, $) {
                 saveSettings();
             }
         });
+
+        // Initialize themes
+        gitbook.fontsettings.setThemes(THEMES);
 
         // Init current settings
         init(opts);
