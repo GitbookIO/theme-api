@@ -6,15 +6,34 @@ This theme works perfectly with search plugins (like [the default plugin](https:
 
 ![Screenshot](img/theme-api.png)
 
+It also integrates well with the default fontsettings plugin to use the Dark theme.
+
+![Dark theme](img/theme-dark.png)
+
 ### Usage
 
 This theme requires GitBook version 3 or later.
 
 Add the theme to your book's configuration (book.json):
 
-    {
-        "plugins": ["theme-api"]
+```json
+{
+    "plugins": ["theme-api"]
+}
+```
+
+To use the Dark theme by default:
+
+```json
+{
+    "plugins": ["theme-api"],
+    "pluginsConfig": {
+        "theme-api": {
+            "theme": "dark"
+        }
     }
+}
+```
 
 ### Defining methods
 
@@ -53,24 +72,26 @@ On each page containing `method` blocks with samples, a switcher is automaticall
 
 The name of each language can be configured in your `book.json` file, with it's `lang` property corresponding to the `sample` block `lang` argument:
 
-    {
-      "plugins": ["theme-api"],
-      "pluginsConfig": {
-        "theme-api": {
-          "languages": [
-            {
-              "lang": "js",          // sample lang argument
-              "name": "JavaScript",  // corresponding name to be displayed
-              "default": true        // default language to show
-            },
-            {
-              "lang": "go",
-              "name": "Go"
-            }
-          ]
+```json
+{
+  "plugins": ["theme-api"],
+  "pluginsConfig": {
+    "theme-api": {
+      "languages": [
+        {
+          "lang": "js",          // sample lang argument
+          "name": "JavaScript",  // corresponding name to be displayed
+          "default": true        // default language to show
+        },
+        {
+          "lang": "go",
+          "name": "Go"
         }
-      }
+      ]
     }
+  }
+}
+```
 
 ![Language switcher](img/lang-switcher.png)
 
@@ -111,10 +132,13 @@ The layout can be toggled from the toolbar using the layout icon: ![Layout icon]
 
 The default aspect can also be set in the theme configuration in the `book.json` file:
 
-    {
-      "pluginsConfig": {
-        "theme-api": {
-          "split": true
-        }
-      }
+```json
+{
+  "plugins": ["theme-api"],
+  "pluginsConfig": {
+    "theme-api": {
+      "split": true
     }
+  }
+}
+```
