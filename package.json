@@ -3,7 +3,7 @@
   "description": "Theme for using GitBook as an API documentation",
   "version": "1.0.2",
   "engines": {
-    "gitbook": ">=3.0.1"
+    "gitbook": ">=3.0.4"
   },
   "dependencies": {
     "cheerio": "0.20.0",
