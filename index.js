@@ -67,7 +67,6 @@ module.exports = {
 
     blocks: {
         method: {
-            parse: true,
             blocks: ['sample', 'common'],
             process: function(blk) {
                 var examples = [];
@@ -100,7 +99,10 @@ module.exports = {
                     });
                 });
 
-                return generateMethod(this, blk.body.trim(), examples);
+                return {
+                    parse: true,
+                    body: generateMethod(this, blk.body.trim(), examples)
+                };
             }
         }
     },
