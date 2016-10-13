@@ -27,4 +27,5 @@ node_modules
 # vim swapfile
 *.swp
 
-assets
+# Plugin assets
+_assets/
