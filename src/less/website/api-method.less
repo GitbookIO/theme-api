@@ -1,15 +1,15 @@
-.api-method {
+.ThemeApi-ApiMethod {
     margin: @api-method-padding -@api-method-padding;
 
     &:last-of-type {
         margin-bottom: 0;
     }
 
-    .api-method-definition {
+    .ThemeApi-ApiMethodDefinition {
         padding: 0 @api-method-padding;
     }
 
-    .api-method-code {
+    .ThemeApi-ApiMethodCode {
         padding: @api-method-padding @api-method-padding @api-method-padding/2;
         background-color: @api-code-background;
         border-top: @api-method-border;
@@ -28,7 +28,7 @@
 
 .book {
     &.two-columns {
-        .api-method {
+        .ThemeApi-ApiMethod {
             position: relative;
             width: calc(~"100% +" 2*@api-method-padding);
 
@@ -39,16 +39,12 @@
                 clear: both;
             }
 
-            .api-method-title {
-                margin-top: 0;
-            }
-
-            .api-method-definition {
+            .ThemeApi-ApiMethodDefinition {
                 float: left;
                 width: 50%;
             }
 
-            .api-method-code {
+            .ThemeApi-ApiMethodCode {
                 position: relative;
                 float: left;
                 width: 50%;
@@ -61,7 +57,7 @@
         }
 
         .page-wrapper.comments-open-from-definition {
-            .api-method-code {
+            .ThemeApi-ApiMethodCode {
                 opacity: 0.1;
             }
         }
