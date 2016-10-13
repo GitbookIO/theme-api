@@ -1,13 +1,17 @@
 #! /bin/bash
 
+echo "Cleaning up folder..."
 # Cleanup folder
-rm -rf assets
+rm -rf _assets/website
 
 # Recreate folder
-mkdir -p assets
+mkdir -p _assets/website
 
 # Compile JS
-uglifyjs -mc -- src/js/theme-api.js > assets/theme-api.js
+# uglifyjs -mc -- src/js/theme-api.js > assets/theme-api.js
 
+echo "Compiling LESS sources..."
 # Compile Website CSS
-lessc -clean-css src/less/website.less assets/theme-api.css
+lessc -clean-css src/less/website.less _assets/website/theme-api.css
+
+echo "Done :)"
