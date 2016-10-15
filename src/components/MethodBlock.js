@@ -25,13 +25,19 @@ const ApiCommon = React.createClass({
 
 const ApiSample = React.createClass({
     propTypes: {
-        example: exampleShape
+        example:          exampleShape,
+        selectedLanguage: React.PropTypes.string
     },
 
     render() {
-        const { example } = this.props;
+        const { example, selectedLanguage } = this.props;
+        // Don't display if is not selected language
+        if (selectedLanguage != example.language) {
+            return null;
+        }
+
         return (
-            <div className="ThemeApi-ApiMethodSample" data-lang={example.lang} data-name={example.name}>
+            <div className="ThemeApi-ApiMethodSample" data-language={example.language} data-name={example.name}>
                 <GitBook.HTMLContent html={example.content} />
             </div>
         );
@@ -40,7 +46,8 @@ const ApiSample = React.createClass({
 
 const ApiExample = React.createClass({
     propTypes: {
-        example: exampleShape
+        example:        exampleShape,
+        selectedLanguage: React.PropTypes.string
     },
 
     render() {
@@ -57,12 +64,13 @@ const ApiExample = React.createClass({
 
 const MethodBlock = React.createClass({
     propTypes: {
-        definition: React.PropTypes.string,
-        examples:   React.PropTypes.arrayOf(exampleShape)
+        definition:       React.PropTypes.string,
+        examples:         React.PropTypes.arrayOf(exampleShape),
+        selectedLanguage: React.PropTypes.string
     },
 
     render() {
-        const { definition, examples } = this.props;
+        const { definition, examples, selectedLanguage } = this.props;
 
         return (
             <div className="ThemeApi-ApiMethod">
@@ -71,15 +79,17 @@ const MethodBlock = React.createClass({
                     <GitBook.HTMLContent html={definition} />
                 </div>
                 <div className="ThemeApi-ApiMethodCode">
-                    { examples.map((example, i) => <ApiExample key={i} example={example} />) }
+                    { examples.map((example, i) => <ApiExample key={i} example={example} selectedLanguage={selectedLanguage} />) }
                 </div>
             </div>
         );
     }
 });
 
-module.exports = GitBook.createPlugin({
-    activate: (dispatch, getState, { Components }) => {
-        dispatch(Components.registerComponent(MethodBlock, { role: 'block:method' }));
-    }
-});
+function mapStateToProps({ themeApi }) {
+    return {
+        selectedLanguage: themeApi.get('selectedLanguage')
+    };
+}
+
+module.exports = GitBook.connect(MethodBlock, mapStateToProps);
