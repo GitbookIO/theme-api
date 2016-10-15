@@ -26,40 +26,38 @@
     }
 }
 
-.book {
-    &.two-columns {
-        .ThemeApi-ApiMethod {
-            position: relative;
-            width: calc(~"100% +" 2*@api-method-padding);
+.ThemeApi-TwoColumns {
+    .ThemeApi-ApiMethod {
+        position: relative;
+        width: calc(~"100% +" 2*@api-method-padding);
 
-            &:after {
-                content: " ";
-                display: block;
-                visibility: hidden;
-                clear: both;
-            }
-
-            .ThemeApi-ApiMethodDefinition {
-                float: left;
-                width: 50%;
-            }
-
-            .ThemeApi-ApiMethodCode {
-                position: relative;
-                float: left;
-                width: 50%;
-                padding: @api-method-padding @api-method-padding @api-method-padding/2;
-                border-left: @api-method-border;
-                border-top: none;
-                border-bottom: none;
-                transition: opacity 300ms ease;
-            }
+        &:after {
+            content: " ";
+            display: block;
+            visibility: hidden;
+            clear: both;
         }
 
-        .page-wrapper.comments-open-from-definition {
-            .ThemeApi-ApiMethodCode {
-                opacity: 0.1;
-            }
+        .ThemeApi-ApiMethodDefinition {
+            float: left;
+            width: 50%;
+        }
+
+        .ThemeApi-ApiMethodCode {
+            position: relative;
+            float: left;
+            width: 50%;
+            padding: @api-method-padding @api-method-padding @api-method-padding/2;
+            border-left: @api-method-border;
+            border-top: none;
+            border-bottom: none;
+            transition: opacity 300ms ease;
+        }
+    }
+
+    .page-wrapper.comments-open-from-definition {
+        .ThemeApi-ApiMethodCode {
+            opacity: 0.1;
         }
     }
 }
