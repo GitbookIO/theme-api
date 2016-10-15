@@ -74,7 +74,6 @@ const MethodBlock = React.createClass({
 
         return (
             <div className="ThemeApi-ApiMethod">
-                <GitBook.ImportCSS href="gitbook/theme-api/theme-api.css" />
                 <div className="ThemeApi-ApiMethodDefinition">
                     <GitBook.HTMLContent html={definition} />
                 </div>

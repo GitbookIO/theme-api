@@ -17,6 +17,7 @@ const PageContainer = React.createClass({
 
         return (
             <div className={className}>
+                <GitBook.ImportCSS href="gitbook/theme-api/theme-api.css" />
                 <GitBook.HTMLContent html={page.content} />
             </div>
         );
