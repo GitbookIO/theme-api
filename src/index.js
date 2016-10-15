@@ -2,7 +2,7 @@ const GitBook       = require('gitbook-core');
 const MethodBlock   = require('./components/MethodBlock');
 const PageContainer = require('./components/PageContainer');
 const DisplayButton = require('./components/DisplayButton');
-// const LanguageButtons = require('./components/LanguageButtons');
+const LanguagesButtons = require('./components/LanguagesButtons');
 const actions       = require('./actions');
 const reduce        = require('./reducers');
 
@@ -11,6 +11,7 @@ module.exports = GitBook.createPlugin({
         dispatch(Components.registerComponent(MethodBlock, { role: 'block:method' }));
         dispatch(Components.registerComponent(PageContainer, { role: 'page:container' }));
         dispatch(Components.registerComponent(DisplayButton, { role: 'toolbar:buttons:left' }));
+        dispatch(Components.registerComponent(LanguagesButtons, { role: 'toolbar:buttons:right' }));
 
         // Get default language in config
         const configLanguages = getState().config.getIn(['pluginsConfig', 'theme-api', 'languages']);
