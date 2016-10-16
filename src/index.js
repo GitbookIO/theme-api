@@ -29,5 +29,7 @@ module.exports = GitBook.createPlugin({
         dispatch(actions.selectLanguage(defaultLanguage.get('lang')));
     },
     reduce,
-    actions
+    actions: {
+        ThemeApi: actions
+    }
 });
