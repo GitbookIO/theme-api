@@ -1,10 +1,11 @@
-const GitBook       = require('gitbook-core');
-const MethodBlock   = require('./components/MethodBlock');
-const PageContainer = require('./components/PageContainer');
-const DisplayButton = require('./components/DisplayButton');
+const GitBook          = require('gitbook-core');
+const MethodBlock      = require('./components/MethodBlock');
+const PageContainer    = require('./components/PageContainer');
+const DisplayButton    = require('./components/DisplayButton');
 const LanguagesButtons = require('./components/LanguagesButtons');
-const actions       = require('./actions');
-const reduce        = require('./reducers');
+
+const actions = require('./actions');
+const reduce  = require('./reducers');
 
 module.exports = GitBook.createPlugin({
     activate: (dispatch, getState, { Components }) => {
@@ -27,5 +28,6 @@ module.exports = GitBook.createPlugin({
         // Set as selected language
         dispatch(actions.selectLanguage(defaultLanguage.get('lang')));
     },
-    reduce
+    reduce,
+    actions
 });
