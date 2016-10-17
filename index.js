@@ -1,21 +1,10 @@
 var _       = require('lodash');
 var Promise = require('q-plus');
-var cheerio = require('cheerio');
 
 var DEFAULT_LANGUAGES = require('./languages');
 var configLanguages = [];
 
 module.exports = {
-    book: {
-        assets: './assets',
-        js: [
-            'theme-api.js'
-        ],
-        css: [
-            'theme-api.css'
-        ]
-    },
-
     blocks: {
         method: {
             blocks: [ 'sample', 'common' ],
