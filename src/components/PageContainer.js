@@ -4,7 +4,7 @@ const classNames = require('classnames');
 
 const PageContainer = React.createClass({
     propTypes: {
-        page:  GitBook.Shapes.Page,
+        page:  GitBook.PropTypes.Page,
         split: React.PropTypes.bool
     },
 
