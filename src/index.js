@@ -1,4 +1,6 @@
 const GitBook          = require('gitbook-core');
+const BodyWrapper      = require('./components/BodyWrapper');
+const ToolbarWrapper   = require('./components/ToolbarWrapper');
 const MethodBlock      = require('./components/MethodBlock');
 const PageContainer    = require('./components/PageContainer');
 const DisplayButton    = require('./components/DisplayButton');
@@ -9,6 +11,8 @@ const reduce  = require('./reducers');
 
 module.exports = GitBook.createPlugin({
     activate: (dispatch, getState, { Components }) => {
+        dispatch(Components.registerComponent(BodyWrapper, { role: 'body:wrapper' }));
+        dispatch(Components.registerComponent(ToolbarWrapper, { role: 'toolbar:wrapper' }));
         dispatch(Components.registerComponent(MethodBlock, { role: 'block:method' }));
         dispatch(Components.registerComponent(PageContainer, { role: 'page:container' }));
         dispatch(Components.registerComponent(DisplayButton, { role: 'toolbar:buttons:left' }));
