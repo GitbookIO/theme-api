@@ -6,19 +6,22 @@
     "gitbook": ">=4.0.0-alpha"
   },
   "dependencies": {
-    "gitbook-core": "4.0.0",
+    "gitbook-core": "^4.0.0",
     "lodash": "4.12.0",
     "q": "1.4.1",
-    "q-plus": "0.0.8"
+    "q-plus": "0.0.8",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
   },
   "devDependencies": {
     "classnames": "^2.2.5",
     "eslint": "^3.7.1",
     "eslint-config-gitbook": "^1.3.1",
-    "gitbook-plugin": "4.0.0",
+    "gitbook-plugin": "^4.0.0",
     "less": "^2.7.1",
     "less-plugin-clean-css": "^1.5.1",
-    "preboot": "git+https://github.com/mdo/preboot.git#4aab4edd85f076d50609cbe28e4fe66cc0771701"
+    "preboot": "git+https://github.com/mdo/preboot.git#4aab4edd85f076d50609cbe28e4fe66cc0771701",
+    "react-sticky": "5.0.5"
   },
   "scripts": {
     "build-js": "gitbook-plugin build ./src/index.js ./_assets/plugin.js",
