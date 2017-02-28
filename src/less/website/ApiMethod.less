@@ -1,0 +1,63 @@
+.ThemeApi-ApiMethod {
+    margin: @api-method-padding -@api-method-padding;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .ThemeApi-ApiMethodDefinition {
+        padding: 0 @api-method-padding;
+    }
+
+    .ThemeApi-ApiMethodCode {
+        padding: @api-method-padding @api-method-padding @api-method-padding/2;
+        background-color: @api-code-background;
+        border-top: @api-method-border;
+        border-bottom: @api-method-border;
+
+        pre>code {
+            .white-space(pre-wrap);
+            word-wrap: break-word;
+        }
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+.ThemeApi-TwoColumns {
+    .ThemeApi-ApiMethod {
+        position: relative;
+        width: calc(~"100% +" 2*@api-method-padding);
+
+        &:after {
+            content: " ";
+            display: block;
+            visibility: hidden;
+            clear: both;
+        }
+
+        .ThemeApi-ApiMethodDefinition {
+            float: left;
+            width: 50%;
+        }
+
+        .ThemeApi-ApiMethodCode {
+            position: relative;
+            float: left;
+            width: 50%;
+            padding: @api-method-padding @api-method-padding @api-method-padding/2;
+            border-left: @api-method-border;
+            border-top: none;
+            border-bottom: none;
+            transition: opacity 300ms ease;
+        }
+    }
+
+    .page-wrapper.comments-open-from-definition {
+        .ThemeApi-ApiMethodCode {
+            opacity: 0.1;
+        }
+    }
+}
