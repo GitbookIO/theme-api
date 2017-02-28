@@ -49,17 +49,17 @@ While the body of the method block will be used as the definition for your metho
 
 This is great for managing examples in different languages, for instance when documenting multiple API clients.
 
-    {% method -%}
+    {% method %}
     ## Install {#install}
 
     The first thing is to get the GitBook API client.
 
-    {% sample lang="js" -%}
+    {% sample lang="js" %}
     ```bash
     $ npm install gitbook-api
     ```
 
-    {% sample lang="go" -%}
+    {% sample lang="go" %}
     ```bash
     $ go get github.com/GitbookIO/go-gitbook-api
     ```
@@ -104,16 +104,16 @@ Note that a `sample` block can contain any markdown content to be displayed for 
 
 Common blocks are used to display content to be displayed for all languages in your examples.
 
-    {% method -%}
+    {% method %}
     ## Simple method
 
-    {% sample lang="js" -%}
+    {% sample lang="js" %}
     This text will only appear for JavaScript.
 
-    {% sample lang="go" -%}
+    {% sample lang="go" %}
     This text will only appear for Go.
 
-    {% common -%}
+    {% common %}
     This will appear for both JavaScript and Go.
     {% endmethod %}
 
